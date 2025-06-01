@@ -11,6 +11,9 @@ let generationConfig = {};
 let currentSession = null;
 let modelSelectModalBg = null;
 
+// Hide select inline by default
+modelSelect.style.display = 'none';
+
 // Utility: Scroll chat to bottom
 function scrollToBottom() {
   chatArea.scrollTop = chatArea.scrollHeight;
@@ -113,6 +116,10 @@ inputArea.addEventListener('submit', async function(e) {
 
 // Show model select as fullscreen modal
 function showModelSelectModal() {
+  // Remove select from input area if present
+  if (inputArea.contains(modelSelect)) {
+    inputArea.removeChild(modelSelect);
+  }
   if (!modelSelectModalBg) {
     modelSelectModalBg = document.createElement('div');
     modelSelectModalBg.className = 'model-select-modal-bg';
@@ -134,7 +141,14 @@ function showModelSelectModal() {
 function hideModelSelectModal() {
   if (modelSelectModalBg) {
     modelSelect.style.display = 'none';
-    inputArea.appendChild(modelSelect);
+    // Move select back to input area, after settings button
+    const sendBtn = document.getElementById('send-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn && inputArea) {
+      inputArea.insertBefore(modelSelect, settingsBtn.nextSibling);
+    } else if (inputArea) {
+      inputArea.appendChild(modelSelect);
+    }
     modelSelect.removeEventListener('blur', hideModelSelectModal);
     document.body.removeChild(modelSelectModalBg);
     modelSelectModalBg = null;

@@ -4,7 +4,6 @@ const chatArea = document.getElementById('chat-area');
 const inputArea = document.getElementById('input-area');
 const chatInput = document.getElementById('chat-input');
 const modelSelect = document.getElementById('modelSelect');
-const imageInput = document.getElementById('imageInput');
 
 let chatHistory = [];
 let generationConfig = {};
@@ -34,16 +33,6 @@ function removeBubble(bubble) {
   if (bubble && bubble.parentNode) {
     bubble.parentNode.removeChild(bubble);
   }
-}
-
-// Read image as base64
-function readImageAsBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 // Start chat session for the selected model
@@ -85,28 +74,20 @@ async function startChatSession(selectedModel) {
 inputArea.addEventListener('submit', async function(e) {
   e.preventDefault();
   const userText = chatInput.value.trim();
-  if (!userText && !imageInput.files.length) return;
+  if (!userText) return;
 
   // Prepare messageData
   let messageData = { role: "user", parts: [] };
   if (userText) messageData.parts.push({ text: userText });
 
-  // Handle image if present
-  if (imageInput.files.length) {
-    const file = imageInput.files[0];
-    const base64 = await readImageAsBase64(file);
-    messageData.parts.push({ inlineData: { mimeType: file.type, data: base64.split(",")[1] } });
-    imageInput.value = ""; // Reset input
-  }
-
-  addMessage(userText || '[Image]', 'user');
+  addMessage(userText, 'user');
   chatInput.value = '';
 
   // Show loading indicator
   const loadingBubble = addMessage('', 'ai', true);
 
   // Get selected model
-  const selectedModel = modelSelect.value;
+  const selectedModel = modelSelect ? modelSelect.value : 'gemini-2.0-flash';
   if (!currentSession || currentSession.model !== selectedModel) {
     currentSession = await startChatSession(selectedModel);
     currentSession.model = selectedModel;

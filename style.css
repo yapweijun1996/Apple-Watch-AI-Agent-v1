@@ -23,7 +23,7 @@ body {
   flex-direction: column;
   overflow: auto;
   position: relative;
-  margin: 24px 8px;
+  margin: 0px;
   transition: width 0.2s, height 0.2s;
 }
 

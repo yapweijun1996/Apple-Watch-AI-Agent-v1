@@ -11,18 +11,19 @@ body {
 }
 
 #watch-face {
-  width: 100%;
-  max-width: 100vw;
-  min-width: 600px;
-  height: 100%;
-  background: #23272f;
-  border-radius: 0;
-  box-shadow: 0 8px 32px rgba(44,62,80,0.18);
+  width: 340px; /* Apple Watch width */
+  height: 400px; /* Apple Watch height */
+  min-width: unset;
+  max-width: unset;
+  min-height: unset;
+  border-radius: 40px; /* rounder look */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: auto;
   position: relative;
   margin: 0px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.18);
+  background: #23272f;
   transition: width 0.2s, height 0.2s;
 }
 
@@ -139,9 +140,9 @@ body {
 }
 
 #chat-area {
-  min-height: 100vh;
   flex: 1 1 auto;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 20px 16px 80px 16px;
   display: flex;
   flex-direction: column;
@@ -151,6 +152,9 @@ body {
   font-size: 15px;
   scrollbar-width: thin;
   scrollbar-color: #333 #181818;
+  min-height: unset;
+  height: unset;
+  max-height: unset;
 }
 #chat-area::-webkit-scrollbar {
   width: 6px;

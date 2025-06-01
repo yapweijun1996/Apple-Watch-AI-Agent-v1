@@ -7,6 +7,8 @@
 - [ ] List key features and differentiators
 - [ ] Draft initial user stories and scenarios
 - [ ] Confirm technical feasibility (watchOS, SiriKit, CoreML, etc.)
+- [ ] Identify required APIs (Gemini, Gemma, Google) and obtain API keys
+- [ ] Plan secure storage and access for API keys (e.g., Keychain, environment variables)
 
 ## 2. Design
 - [ ] Sketch user flows and main UI screens
@@ -14,12 +16,16 @@
 - [ ] Plan notification and complication integration (if needed)
 - [ ] Define data privacy and security requirements
 - [ ] Create wireframes or prototypes
+- [ ] Design secure API key handling and error messaging
 
 ## 3. Development Setup
 - [ ] Set up Xcode project for watchOS
 - [ ] Configure necessary entitlements (Siri, HealthKit, etc.)
 - [ ] Integrate CoreML or other AI frameworks
 - [ ] Set up version control (e.g., Git)
+- [ ] Create or update `scripts_v1.js` to manage API key integration for Gemini, Gemma, and Google
+    - [x] Note: `apiKey` is already defined in `scripts_v1.js`; no amendment needed at this stage
+- [ ] Ensure API keys are not hardcoded and are securely referenced in code
 
 ## 4. Core Functionality Implementation
 - [ ] Implement main AI logic (on-device or cloud-based)

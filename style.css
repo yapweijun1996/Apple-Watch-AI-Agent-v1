@@ -169,6 +169,9 @@ body {
   border-top: 1px solid #23272f;
   gap: 8px;
   box-shadow: 0 -2px 12px rgba(44,62,80,0.06);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 #chat-input {
@@ -221,7 +224,7 @@ body {
   color: #fff;
 }
 
-/* Chat bubbles */
+/* Chat bubbles */f
 .bubble {
   max-width: 80%;
   padding: 13px 18px;

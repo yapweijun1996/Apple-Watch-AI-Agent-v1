@@ -25,6 +25,9 @@ function addMessage(text, sender = 'user', isLoading = false) {
   bubble.className = `bubble ${sender}`;
   if (isLoading) {
     bubble.innerHTML = '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
+  } else if (sender === 'ai' && window.marked && window.DOMPurify) {
+    // Render markdown for AI messages, sanitize output
+    bubble.innerHTML = DOMPurify.sanitize(marked.parse(text));
   } else {
     bubble.textContent = text;
   }

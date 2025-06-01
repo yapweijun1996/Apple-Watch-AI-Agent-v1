@@ -152,7 +152,7 @@ body {
   font-size: 15px;
   scrollbar-width: thin;
   scrollbar-color: #333 #181818;
-  min-height: unset;
+  min-height: 100vh;
   height: unset;
   max-height: unset;
 }

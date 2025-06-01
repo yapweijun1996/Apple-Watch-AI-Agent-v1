@@ -12,7 +12,7 @@ let modelSelectModalBg = null;
 let modelSelect = null;
 
 // Hide select inline by default
-modelSelect.style.display = 'none';
+// Removed: modelSelect.style.display = 'none';
 
 // Utility: Scroll chat to bottom
 function scrollToBottom() {
@@ -187,6 +187,6 @@ window.addEventListener('click', function(e) {
 });
 
 // Hide model select on blur (optional, for keyboard users)
-modelSelect.addEventListener('blur', function() {
-  setTimeout(() => { modelSelect.style.display = 'none'; }, 150);
-}); 
+// Removed: modelSelect.addEventListener('blur', function() {
+//   setTimeout(() => { modelSelect.style.display = 'none'; }, 150);
+// }); 

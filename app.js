@@ -9,6 +9,7 @@ const settingsBtn = document.getElementById('settings-btn');
 let chatHistory = [];
 let generationConfig = {};
 let currentSession = null;
+let modelSelectModalBg = null;
 
 // Utility: Scroll chat to bottom
 function scrollToBottom() {
@@ -110,15 +111,39 @@ inputArea.addEventListener('submit', async function(e) {
   }
 });
 
-// Toggle model select dropdown
-settingsBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  if (modelSelect.style.display === 'none' || modelSelect.style.display === '') {
+// Show model select as fullscreen modal
+function showModelSelectModal() {
+  if (!modelSelectModalBg) {
+    modelSelectModalBg = document.createElement('div');
+    modelSelectModalBg.className = 'model-select-modal-bg';
+    document.body.appendChild(modelSelectModalBg);
+    modelSelectModalBg.appendChild(modelSelect);
     modelSelect.style.display = 'block';
     modelSelect.focus();
-  } else {
-    modelSelect.style.display = 'none';
+    // Dismiss on click outside
+    modelSelectModalBg.addEventListener('click', function(e) {
+      if (e.target === modelSelectModalBg) {
+        hideModelSelectModal();
+      }
+    });
+    // Dismiss on blur (keyboard)
+    modelSelect.addEventListener('blur', hideModelSelectModal);
   }
+}
+
+function hideModelSelectModal() {
+  if (modelSelectModalBg) {
+    modelSelect.style.display = 'none';
+    inputArea.appendChild(modelSelect);
+    modelSelect.removeEventListener('blur', hideModelSelectModal);
+    document.body.removeChild(modelSelectModalBg);
+    modelSelectModalBg = null;
+  }
+}
+
+settingsBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  showModelSelectModal();
 });
 
 // Hide model select when clicking outside

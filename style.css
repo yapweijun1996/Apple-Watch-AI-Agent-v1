@@ -73,23 +73,40 @@ body {
 .settings-btn:hover, .settings-btn:focus {
   background: rgba(255,255,255,0.08);
 }
+.model-select-modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .model-select {
-  position: absolute;
-  top: 54px;
-  right: 20px;
-  z-index: 10;
-  min-width: 180px;
+  position: relative;
+  display: block !important;
+  width: 90vw;
+  max-width: 400px;
+  font-size: 1.2rem;
+  padding: 24px 18px;
   background: #23272f;
   color: #fff;
-  border: 1px solid #333;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(44,62,80,0.18);
-  font-size: 15px;
-  padding: 10px 12px;
-  display: block;
+  border: 2px solid #0a84ff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.28);
+  z-index: 1001;
+  margin: 0 auto;
 }
-.model-select:focus {
-  outline: 2px solid #0a84ff;
+@media (max-width: 600px) {
+  .model-select {
+    width: 96vw;
+    max-width: 96vw;
+    font-size: 1.1rem;
+    padding: 18px 8px;
+  }
 }
 
 #chat-area {

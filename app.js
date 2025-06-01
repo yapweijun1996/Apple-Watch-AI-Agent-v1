@@ -3,13 +3,13 @@
 const chatArea = document.getElementById('chat-area');
 const inputArea = document.getElementById('input-area');
 const chatInput = document.getElementById('chat-input');
-const modelSelect = document.getElementById('modelSelect');
 const settingsBtn = document.getElementById('settings-btn');
 
 let chatHistory = [];
 let generationConfig = {};
 let currentSession = null;
 let modelSelectModalBg = null;
+let modelSelect = null;
 
 // Hide select inline by default
 modelSelect.style.display = 'none';
@@ -75,6 +75,69 @@ async function startChatSession(selectedModel) {
   };
 }
 
+function createModelSelect() {
+  const select = document.createElement('select');
+  select.id = 'modelSelect';
+  select.className = 'model-select';
+  select.innerHTML = `
+    <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+    <option value="gemma-3-27b-it">gemma-3-27b-it</option>
+    <option value="gemini-2.5-pro-preview-03-25">gemini-2.5-pro-preview-03-25</option>
+  `;
+  return select;
+}
+
+function showModelSelectModal() {
+  if (modelSelectModalBg) return;
+  modelSelectModalBg = document.createElement('div');
+  modelSelectModalBg.className = 'model-select-modal-bg';
+
+  const modalContent = document.createElement('div');
+  modalContent.className = 'model-select-modal-content';
+
+  const title = document.createElement('div');
+  title.className = 'model-select-modal-title';
+  title.textContent = 'Select AI Model';
+
+  modelSelect = createModelSelect();
+  // Set current value if previously selected
+  if (window.selectedModelValue) modelSelect.value = window.selectedModelValue;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'model-select-modal-close';
+  closeBtn.innerHTML = '&times;';
+  closeBtn.setAttribute('aria-label', 'Close');
+
+  modalContent.appendChild(closeBtn);
+  modalContent.appendChild(title);
+  modalContent.appendChild(modelSelect);
+  modelSelectModalBg.appendChild(modalContent);
+  document.body.appendChild(modelSelectModalBg);
+  modelSelect.focus();
+
+  // Close logic
+  function closeModal() {
+    window.selectedModelValue = modelSelect.value;
+    modelSelectModalBg.remove();
+    modelSelectModalBg = null;
+    modelSelect = null;
+  }
+  closeBtn.onclick = closeModal;
+  modelSelectModalBg.onclick = (e) => { if (e.target === modelSelectModalBg) closeModal(); };
+  document.addEventListener('keydown', escListener);
+  function escListener(e) { if (e.key === 'Escape') { closeModal(); document.removeEventListener('keydown', escListener); } }
+}
+
+settingsBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  showModelSelectModal();
+});
+
+// Use selected model in chat logic
+function getSelectedModel() {
+  return window.selectedModelValue || 'gemini-2.0-flash';
+}
+
 // Handle form submit
 inputArea.addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -92,7 +155,7 @@ inputArea.addEventListener('submit', async function(e) {
   const loadingBubble = addMessage('', 'ai', true);
 
   // Get selected model
-  const selectedModel = modelSelect ? modelSelect.value : 'gemini-2.0-flash';
+  const selectedModel = getSelectedModel();
   if (!currentSession || currentSession.model !== selectedModel) {
     currentSession = await startChatSession(selectedModel);
     currentSession.model = selectedModel;
@@ -112,52 +175,6 @@ inputArea.addEventListener('submit', async function(e) {
     removeBubble(loadingBubble);
     addMessage('[Error: ' + err.message + ']', 'ai');
   }
-});
-
-// Show model select as fullscreen modal
-function showModelSelectModal() {
-  // Remove select from input area if present
-  if (inputArea.contains(modelSelect)) {
-    inputArea.removeChild(modelSelect);
-  }
-  if (!modelSelectModalBg) {
-    modelSelectModalBg = document.createElement('div');
-    modelSelectModalBg.className = 'model-select-modal-bg';
-    document.body.appendChild(modelSelectModalBg);
-    modelSelectModalBg.appendChild(modelSelect);
-    modelSelect.style.display = 'block';
-    modelSelect.focus();
-    // Dismiss on click outside
-    modelSelectModalBg.addEventListener('click', function(e) {
-      if (e.target === modelSelectModalBg) {
-        hideModelSelectModal();
-      }
-    });
-    // Dismiss on blur (keyboard)
-    modelSelect.addEventListener('blur', hideModelSelectModal);
-  }
-}
-
-function hideModelSelectModal() {
-  if (modelSelectModalBg) {
-    modelSelect.style.display = 'none';
-    // Move select back to input area, after settings button
-    const sendBtn = document.getElementById('send-btn');
-    const settingsBtn = document.getElementById('settings-btn');
-    if (settingsBtn && inputArea) {
-      inputArea.insertBefore(modelSelect, settingsBtn.nextSibling);
-    } else if (inputArea) {
-      inputArea.appendChild(modelSelect);
-    }
-    modelSelect.removeEventListener('blur', hideModelSelectModal);
-    document.body.removeChild(modelSelectModalBg);
-    modelSelectModalBg = null;
-  }
-}
-
-settingsBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  showModelSelectModal();
 });
 
 // Hide model select when clicking outside

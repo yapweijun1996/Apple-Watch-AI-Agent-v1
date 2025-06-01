@@ -1,48 +1,43 @@
-# Apple Watch AI Agent Implementation Checklist
+# Checklist v1 — Apple Watch AI Agent Chatbox (HTML/CSS/JS Only)
 
-1. **Project Setup**
-   - [ ] Create a new Xcode project for watchOS
-   - [ ] Set up version control (e.g., Git)
-   - [ ] Configure necessary entitlements (Siri, HealthKit, etc.)
-   - [ ] Integrate CoreML or chosen AI framework
-   - [ ] Add required API dependencies (Gemini, Gemma, Google, etc.)
-   - [ ] Set up secure API key management (e.g., Keychain)
+## 1. Project Setup
+- [ ] Create project folder and initialize with `index.html`, `style.css`, and `app.js`
+- [ ] Organize assets (icons, fonts) if needed
 
-2. **UI Development**
-   - [ ] Design and implement main UI screens (chat, settings, etc.)
-   - [ ] Build chatbox for user input and AI responses (HTML/CSS/JS if web-based)
-   - [ ] Implement voice and/or touch input handling
-   - [ ] Add notification and complication support (if needed)
-   - [ ] Ensure accessibility compliance
+## 2. Apple Watch UI Container
+- [ ] Design a circular or rounded-square container to mimic Apple Watch face
+- [ ] Set fixed dimensions (e.g., 340x340px) for watch face
+- [ ] Center container on page, add subtle shadow
 
-3. **AI & Feature Integration**
-   - [ ] Implement main AI logic (on-device or cloud-based)
-   - [ ] Connect chatbox to AI agent for real-time responses
-   - [ ] Integrate with Apple Watch sensors/APIs as needed
-   - [ ] Handle error states and display user-friendly messages
-   - [ ] Securely reference and use API keys in code
+## 3. Chatbox UI
+- [ ] Add a scrollable chat area inside the watch face
+- [ ] Style chat bubbles for user and AI (different colors, alignment)
+- [ ] Add a minimal input area (text field + send button) at the bottom
+- [ ] Ensure touch-friendly sizing and spacing
 
-4. **Testing**
-   - [ ] Write and run unit tests for core logic
-   - [ ] Write and run UI tests for main interactions
-   - [ ] Test on multiple Apple Watch models/sizes
-   - [ ] Validate AI accuracy and responsiveness
-   - [ ] Conduct usability testing with target users
-   - [ ] Address edge cases and error handling
+## 4. Chat Logic (JavaScript)
+- [ ] Handle sending user messages (add to chat area)
+- [ ] Simulate AI agent responses (e.g., with setTimeout and canned replies)
+- [ ] Auto-scroll chat area to latest message
+- [ ] Clear input after sending
 
-5. **Deployment**
-   - [ ] Prepare App Store assets (icons, screenshots, description)
-   - [ ] Set up TestFlight for beta testing
-   - [ ] Collect and address beta feedback
-   - [ ] Finalize privacy policy and compliance checks
-   - [ ] Submit to App Store
+## 5. Visual & Interaction Polish
+- [ ] Animate message appearance (fade/slide in)
+- [ ] Add loading indicator for AI response (e.g., animated dots)
+- [ ] Responsive design: ensure UI works on small screens
 
-6. **Post-Launch**
-   - [ ] Monitor analytics and user feedback
-   - [ ] Fix bugs and optimize performance
-   - [ ] Plan and implement feature updates
-   - [ ] Maintain documentation and knowledge base
+## 6. Accessibility & Usability
+- [ ] Use semantic HTML for buttons/inputs
+- [ ] Ensure keyboard navigation works
+- [ ] Add ARIA labels if needed
 
----
+## 7. Extensibility & Maintainability
+- [ ] Modularize JS code (functions or IIFE)
+- [ ] Comment code for clarity
+- [ ] Plan for easy integration of real AI backend later
 
-**Tip:** Review and update this checklist as your project evolves to ensure continuous improvement and alignment with user needs. 
+## 8. (Optional) Local Storage
+- [ ] Save chat history in localStorage (optional for v1)
+
+## 9. Documentation
+- [ ] Add code comments and a brief README (project purpose, how to run, extension ideas)

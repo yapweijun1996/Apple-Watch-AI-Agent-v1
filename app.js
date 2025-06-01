@@ -4,6 +4,7 @@ const chatArea = document.getElementById('chat-area');
 const inputArea = document.getElementById('input-area');
 const chatInput = document.getElementById('chat-input');
 const modelSelect = document.getElementById('modelSelect');
+const settingsBtn = document.getElementById('settings-btn');
 
 let chatHistory = [];
 let generationConfig = {};
@@ -107,4 +108,29 @@ inputArea.addEventListener('submit', async function(e) {
     removeBubble(loadingBubble);
     addMessage('[Error: ' + err.message + ']', 'ai');
   }
+});
+
+// Toggle model select dropdown
+settingsBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (modelSelect.style.display === 'none' || modelSelect.style.display === '') {
+    modelSelect.style.display = 'block';
+    modelSelect.focus();
+  } else {
+    modelSelect.style.display = 'none';
+  }
+});
+
+// Hide model select when clicking outside
+window.addEventListener('click', function(e) {
+  if (modelSelect && modelSelect.style.display === 'block') {
+    if (!modelSelect.contains(e.target) && e.target !== settingsBtn) {
+      modelSelect.style.display = 'none';
+    }
+  }
+});
+
+// Hide model select on blur (optional, for keyboard users)
+modelSelect.addEventListener('blur', function() {
+  setTimeout(() => { modelSelect.style.display = 'none'; }, 150);
 }); 
